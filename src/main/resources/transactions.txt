@@ -1,0 +1,91 @@
+Transaction Date,Description,Amount,Currency,Recipient,Payment Method
+2022-01-02,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2022-01-05,Equipment purchase,-1500.00,EUR,XYZ Equipment,Visa Credit Card
+2022-01-09,Product sales revenue,2000.00,USD,Online Store,PayPal
+2022-01-12,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-01-15,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2022-01-20,Client invoice payment,2500.00,GBP,XYZ Client,Check
+2022-01-22,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-01-24,Product sales revenue,1500.00,EUR,Online Store,Stripe
+2022-01-26,Office supplies purchase,-200.00,USD,Office Depot,Visa Credit Card
+2022-01-28,Client invoice payment,3000.00,USD,ABC Client,Wire Transfer
+2022-02-01,Product sales revenue,2500.00,USD,Online Store,PayPal
+2022-02-06,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-02-10,Advertising expense payment,-750.00,GBP,Marketing Agency,Visa Credit Card
+2022-02-13,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2022-02-15,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-02-17,Product sales revenue,2000.00,USD,Online Store,PayPal
+2022-02-19,Client invoice payment,2000.00,GBP,XYZ Client,Check
+2022-02-22,Equipment purchase,-1500.00,EUR,XYZ Equipment,Visa Credit Card
+2022-02-25,Product sales revenue,1500.00,EUR,Online Store,Stripe
+2022-02-27,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-03-02,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2022-03-05,Client invoice payment,3000.00,GBP,ABC Client,Wire Transfer
+2022-03-08,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-03-11,Product sales revenue,2500.00,USD,Online Store,PayPal
+2022-03-14,Office supplies purchase,-200.00,USD,Office Depot,Visa Credit Card
+2022-03-17,Client invoice payment,4000.00,USD,XYZ Client,Wire Transfer
+2022-03-20,Product sales revenue,2000.00,EUR,Online Store,Stripe
+2022-03-23,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-03-26,Advertising expense payment,-750.00,GBP,Marketing Agency,Visa Credit Card
+2022-03-29,Office rent payment,-1000.00,USD,ABC Real Estate,Wire
+2022-04-01,Product sales revenue,1500.00,EUR,Online Store,Stripe
+2022-04-05,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-04-09,Client invoice payment,2500.00,GBP,XYZ Client,Check
+2022-04-12,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-04-15,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2022-04-20,Client invoice payment,3000.00,USD,ABC Client,Wire Transfer
+2022-04-22,Inventory purchase,-1500.00,EUR,XYZ Equipment,Visa Credit Card
+2022-04-24,Product sales revenue,2000.00,USD,Online Store,PayPal
+2022-04-27,Office supplies purchase,-200.00,USD,Office Depot,Visa Credit Card
+2022-04-30,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-05-02,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2022-05-05,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2022-05-08,Product sales revenue,2500.00,USD,Online Store,PayPal
+2022-05-11,Client invoice payment,2000.00,GBP,XYZ Client,Check
+2022-05-14,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-05-17,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-05-20,Advertising expense payment,-750.00,GBP,Marketing Agency,Visa Credit Card
+2022-05-23,Client invoice payment,4000.00,USD,XYZ Client,Wire Transfer
+2022-05-26,Product sales revenue,1500.00,EUR,Online Store,Stripe
+2022-05-29,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2022-06-01,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-06-06,Inventory purchase,-800.00,EUR,XYZ Supplier,PayPal
+2022-06-09,Product sales revenue,2500.00,USD,Online Store,PayPal
+2022-06-12,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2022-06-15,Client invoice payment,3000.00,GBP,ABC Client,Wire Transfer
+2022-06-18,Product sales revenue,2000.00,EUR,Online Store,Stripe
+2022-06-21,Office supplies purchase,-200.00,USD,Office Depot,Visa Credit Card
+2022-06-24,Employee payroll,5000.00,USD,John Doe,Direct Deposit
+2022-06-27,Client invoice payment,2500.00,GBP,XYZ Client,Check
+2022-06-30,Advertising expense payment,-750.00,GBP,Marketing Agency,Visa Credit Card
+2022-07-03,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2023-03-02,Travel expenses reimbursement,400.00,USD,John Smith,Direct Deposit
+2023-03-06,Inventory purchase,-1200.00,EUR,XYZ Supplier,PayPal
+2023-03-10,Product sales revenue,800.00,EUR,Online Store,Stripe
+2023-03-14,Office rent payment,-1000.00,GBP,ABC Real Estate,Wire Transfer
+2023-03-17,Client invoice payment,1500.00,USD,XYZ Client,Check
+2023-03-20,Salary payment,2000.00,GBP,John Doe,Direct Deposit
+2023-03-22,Equipment purchase,-2000.00,EUR,Office Depot,Visa Debit Card
+2023-03-25,Product sales revenue,1000.00,USD,Online Store,Stripe
+2023-03-27,Software license fee payment,-300.00,GBP,Microsoft,Mastercard Credit Card
+2023-03-30,Client invoice payment,3000.00,USD,ABC Client,Wire Transfer
+2023-04-01,Office rent payment,-1000.00,USD,ABC Real Estate,Wire Transfer
+2023-04-03,Product sales revenue,1500.00,EUR,Online Store,Stripe
+2023-04-06,Salary payment,2000.00,USD,John Doe,Direct Deposit
+2023-04-09,Advertising expense payment,-500.00,GBP,Marketing Agency,Visa Credit Card
+2023-04-11,Client invoice payment,2000.00,EUR,XYZ Client,Check
+2023-04-14,Travel expenses reimbursement,300.00,GBP,John Smith,Direct Deposit
+2023-04-17,Product sales revenue,800.00,USD,Online Store,Stripe
+2023-04-19,Inventory purchase,-500.00,GBP,Office Depot,Visa Debit Card
+2023-04-22,Web hosting fee payment,-200.00,USD,Web Hosting Inc.,PayPal
+2023-04-26,Online advertising expense payment,-300.00,GBP,Google Ads,Mastercard Credit Card
+2023-04-28,Client invoice payment,2500.00,EUR,ABC Client,Wire Transfer
+2023-04-29,Product sales revenue,500.00,USD,Online Store,Stripe
+2023-04-30,Office supplies purchase,-100.00,GBP,Office Depot,Visa Debit Card
+2023-05-02,Software license fee payment,-300.00,USD,Microsoft,Mastercard Credit Card
+2023-05-05,Client invoice payment,1500.00,EUR,XYZ Client,Check
+2023-05-08,Product sales revenue,1000.00,USD,Online Store,Stripe
+2023-05-11,Office rent payment,-1000.00,GBP,ABC Real Estate,Wire Transfer
+2023-05-14,Travel expenses reimbursement,400.00,USD,John Smith,Direct Deposit
+2023-05-17,Client invoice payment,2000.00,USD,ABC Client,Wire Transfer

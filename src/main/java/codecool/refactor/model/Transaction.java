@@ -1,9 +1,4 @@
-package codecool.refactor.tzx;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+package codecool.refactor.model;
 
 public class Transaction {
     private String transactionDate;

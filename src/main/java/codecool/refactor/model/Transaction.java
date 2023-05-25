@@ -1,14 +1,16 @@
 package codecool.refactor.model;
 
+import java.math.BigDecimal;
+
 public class Transaction {
     private String transactionDate;
     private String description;
-    private double amount;
+    private BigDecimal amount;
     private String currency;
     private String recipient;
     private String paymentMethod;
 
-    public Transaction(String transactionDate, String description, double amount, String currency, String recipient, String paymentMethod) {
+    public Transaction(String transactionDate, String description, BigDecimal amount, String currency, String recipient, String paymentMethod) {
         this.transactionDate = transactionDate;
         this.description = description;
         this.amount = amount;
@@ -25,7 +27,7 @@ public class Transaction {
         return description;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

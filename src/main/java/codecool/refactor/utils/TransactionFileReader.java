@@ -5,6 +5,7 @@ import codecool.refactor.model.Transaction;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class TransactionFileReader {
                 Transaction aaa = new Transaction(
                         transactionData[0],
                         transactionData[1],
-                        Double.parseDouble(transactionData[2]),
+                        new BigDecimal(transactionData[2]),
                         transactionData[3],
                         transactionData[4],
                         transactionData[5]

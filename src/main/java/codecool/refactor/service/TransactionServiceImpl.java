@@ -1,12 +1,13 @@
 package codecool.refactor.service;
 
+import codecool.refactor.model.Transaction;
+import codecool.refactor.utils.TransactionFileReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class TransactionServiceImpl implements TransactionService {
 
@@ -69,43 +70,32 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void getAverageTransactionsAmountByCurrency() {
-        String line;
-        Map<String, BigDecimal> newdate = new HashMap<>();
-        Map<String, Integer> kekw = new HashMap<>();
-        String filename = "D:\\Dev\\Projects\\SDA\\generalirefactor\\src\\main\\resources\\transactions.txt";
-        int firstLine = 0;
-        try {
-            Scanner scanner = new Scanner(new File(filename));
-            while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                if (firstLine == 0) {
-                    firstLine++;
-                    continue;
-                }
-                String[] fields = line.split(",");
-                String currency = fields[3];
-                BigDecimal amount = new BigDecimal(fields[2]);
-                if (!newdate.containsKey(currency)) {
-                    newdate.put(currency, amount);
-                    kekw.put(currency, 1);
-                } else {
-                    newdate.put(currency, newdate.get(currency).add(amount));
-                    kekw.put(currency, kekw.get(currency) + 1);
-                }
-                firstLine++;
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-            return;
-        }
-        System.out.println("Average transaction amounts by currency:");
-        for (String currency : newdate.keySet()) {
-            BigDecimal bigdecimal = newdate.get(currency);
-            int count = kekw.get(currency);
-            BigDecimal avge = bigdecimal.divide(new BigDecimal(count), 2, BigDecimal.ROUND_HALF_UP);
-            System.out.println(currency + ": " + avge.toString());
 
+        List<Transaction> transactions = TransactionFileReader.readTransactions();
+        Map<String, List<BigDecimal>> transactionAmountByCurrency = new HashMap<>();
+        for (Transaction transaction : transactions) {
+            transactionAmountByCurrency.compute(transaction.getCurrency(), (k, v) -> {
+                v = v != null ? v : new ArrayList<>();
+                v.add(transaction.getAmount());
+                return v;
+            });
+
+//            transactionAmountByCurrency.computeIfPresent(transaction.getCurrency(), (k, v) -> {
+//                v.add(transaction.getAmount());
+//                return v;
+//            });
+//            transactionAmountByCurrency.putIfAbsent(transaction.getCurrency(), new ArrayList<>()).add(transaction.getAmount());
+        }
+
+        System.out.println("Average transaction amounts by currency:");
+        for (String currency : transactionAmountByCurrency.keySet()) {
+            List<BigDecimal> transactionAmounts = transactionAmountByCurrency.get(currency);
+            BigDecimal sum = new BigDecimal(0);
+            for (BigDecimal transactionAmount : transactionAmounts) {
+                sum = sum.add(transactionAmount);
+            }
+            BigDecimal average = sum.divide(new BigDecimal(transactionAmounts.size()));
+            System.out.println(currency + ": " + average.toString());
         }
     }
 

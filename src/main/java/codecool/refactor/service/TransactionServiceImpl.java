@@ -3,22 +3,17 @@ package codecool.refactor.service;
 import codecool.refactor.model.Transaction;
 import codecool.refactor.utils.TransactionFileReader;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TransactionServiceImpl implements TransactionService {
 
-    private String filename = null;
-
     private List<Transaction> transactions;
 
-    public TransactionServiceImpl(String filename) {
-        this.filename = filename;
+    public TransactionServiceImpl() {
         this.transactions = TransactionFileReader.readTransactions();
     }
 
@@ -31,56 +26,16 @@ public class TransactionServiceImpl implements TransactionService {
                         )
                 );
 
+        List<String> recipients = new ArrayList<>();
+        for (Map.Entry<String, Map<String, BigDecimal>> entry : recipientsTransactionAmountsByCurrency.entrySet()) {
+            entry.getValue().entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(e -> entry.getKey() + ":" + e.getKey() + ":" + e.getValue())
+                    .ifPresent(recipients::add);
+        }
 
-        int skip = 0;
-        Map<String, Map<String, Double>> totalsByCurrencyAndRecipient = new HashMap<>();
-        try {
-            Scanner scanner = new Scanner(new File(filename));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if (skip == 0) {
-                    skip++;
-                    continue;
-                }
-                String[] fields = line.split(",");
-                String currency = fields[3];
-                String recipient = fields[4];
-                Double amount = Double.parseDouble(fields[2]);
-                if (!totalsByCurrencyAndRecipient.containsKey(currency)) {
-                    totalsByCurrencyAndRecipient.put(currency, new HashMap<>());
-                }
-                Map<String, Double> totalsByRecipient = totalsByCurrencyAndRecipient.get(currency);
-                if (!totalsByRecipient.containsKey(recipient)) {
-                    totalsByRecipient.put(recipient, amount);
-                } else {
-                    totalsByRecipient.put(recipient, totalsByRecipient.get(recipient) + amount);
-                }
-                skip++;
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-            return;
-        }
-        //TODO add logging
-        try {
-            PrintWriter writer = new PrintWriter(new File("output.txt"));
-            for (String currency : totalsByCurrencyAndRecipient.keySet()) {
-                double maxTotal = 0;
-                String max = "";
-                for (String recipient : totalsByCurrencyAndRecipient.get(currency).keySet()) {
-                    double total = totalsByCurrencyAndRecipient.get(currency).get(recipient);
-                    if (total > maxTotal) {
-                        maxTotal = total;
-                        max = recipient;
-                    }
-                }
-                writer.println(currency + "," + max + "," + maxTotal);
-            }
-            writer.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-        }
+        System.out.println("Highest Total Amount Recipient by Currency");
+        System.out.println(recipients);
     }
 
     public void getAverageTransactionsAmountByCurrency() {
@@ -93,16 +48,18 @@ public class TransactionServiceImpl implements TransactionService {
             });
         }
 
-        System.out.println("Average transaction amounts by currency:");
-        for (String currency : transactionAmountsByCurrency.keySet()) {
-            List<BigDecimal> transactionAmounts = transactionAmountsByCurrency.get(currency);
-            BigDecimal sum = new BigDecimal(0);
-            for (BigDecimal transactionAmount : transactionAmounts) {
-                sum = sum.add(transactionAmount);
-            }
-            BigDecimal average = sum.divide(new BigDecimal(transactionAmounts.size()), RoundingMode.DOWN);
-            System.out.println(currency + ": " + average.toString());
+        Map<String, BigDecimal> result = new HashMap<>();
+        for (Map.Entry<String, List<BigDecimal>> entry : transactionAmountsByCurrency.entrySet()) {
+            BigDecimal sum = entry.getValue().stream()
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            BigDecimal average = sum.divide(BigDecimal.valueOf(entry.getValue().size()), RoundingMode.DOWN);
+
+            result.put(entry.getKey(), average);
         }
+
+        System.out.println("Average transaction amounts by currency:");
+        System.out.println(result);
     }
 
 
@@ -112,21 +69,15 @@ public class TransactionServiceImpl implements TransactionService {
                                 Transaction::getPaymentMethod, Collectors.counting())
                         )
                 );
-        print(paymentMethodsByCurrency);
-    }
 
-    public void print(Map<String, Map<String, Long>> countsByCurrencyAndPaymentMethod) {
-        for (String currency : countsByCurrencyAndPaymentMethod.keySet()) {
-            long maxCount = 0;
-            String maxPaymentMethod = "";
-            for (String paymentMethod : countsByCurrencyAndPaymentMethod.get(currency).keySet()) {
-                long count = countsByCurrencyAndPaymentMethod.get(currency).get(paymentMethod);
-                if (count > maxCount) {
-                    maxCount = count;
-                    maxPaymentMethod = paymentMethod;
-                }
-            }
-            System.out.println(currency + ": " + maxPaymentMethod);
+        Map<String, String> result = new HashMap<>();
+        for (Map.Entry<String, Map<String, Long>> entry : paymentMethodsByCurrency.entrySet()) {
+            entry.getValue().entrySet().stream()
+                    .max(Comparator.comparingLong(Map.Entry::getValue))
+                    .ifPresent(it -> result.put(entry.getKey(), it.getKey()));
         }
+
+        System.out.println("Most Occurring Payment Method By Currency");
+        System.out.println(result);
     }
 }

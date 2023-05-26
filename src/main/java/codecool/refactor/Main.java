@@ -6,16 +6,12 @@ import codecool.refactor.utils.TransactionFileReader;
 public class Main {
 
     public static void main(String[] args) {
+        TransactionServiceImpl transactionServiceImpl = new TransactionServiceImpl();
 
-        TransactionFileReader.readTransactions();
-
-        String filename = "D:\\Dev\\Projects\\SDA\\generalirefactor\\src\\main\\resources\\transactions.txt";
-
-        TransactionServiceImpl transactionServiceImpl = new TransactionServiceImpl(filename);
-
+        transactionServiceImpl.getRecipientsTotalAmountByCurrency();
         transactionServiceImpl.getTheMostOccurringPaymentMethodByCurrency();
-        transactionServiceImpl.getRecipientsWithHighestAmountByCurrency();
         transactionServiceImpl.getAverageTransactionsAmountByCurrency();
+
         //TODO
         // daysBetweenEarliestAndLatestTransactions(null);
     }

@@ -7,17 +7,31 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TransactionServiceImpl implements TransactionService {
 
+    private String filename = null;
+
+    private List<Transaction> transactions;
+
     public TransactionServiceImpl(String filename) {
         this.filename = filename;
+        this.transactions = TransactionFileReader.readTransactions();
     }
 
-    String filename = null;
+    public void getRecipientsTotalAmountByCurrency() {
+        Map<String, Map<String, BigDecimal>> recipientsTransactionAmountsByCurrency = transactions.stream()
+                .collect(Collectors.groupingBy(Transaction::getCurrency, Collectors.groupingBy(
+                                        Transaction::getRecipient, Collectors.reducing(
+                                                BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
+                                )
+                        )
+                );
 
-    public void getRecipientsWithHighestAmountByCurrency() {
+
         int skip = 0;
         Map<String, Map<String, Double>> totalsByCurrencyAndRecipient = new HashMap<>();
         try {
@@ -70,75 +84,43 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void getAverageTransactionsAmountByCurrency() {
-
-        List<Transaction> transactions = TransactionFileReader.readTransactions();
-        Map<String, List<BigDecimal>> transactionAmountByCurrency = new HashMap<>();
+        Map<String, List<BigDecimal>> transactionAmountsByCurrency = new HashMap<>();
         for (Transaction transaction : transactions) {
-            transactionAmountByCurrency.compute(transaction.getCurrency(), (k, v) -> {
+            transactionAmountsByCurrency.compute(transaction.getCurrency(), (k, v) -> {
                 v = v != null ? v : new ArrayList<>();
                 v.add(transaction.getAmount());
                 return v;
             });
-
-//            transactionAmountByCurrency.computeIfPresent(transaction.getCurrency(), (k, v) -> {
-//                v.add(transaction.getAmount());
-//                return v;
-//            });
-//            transactionAmountByCurrency.putIfAbsent(transaction.getCurrency(), new ArrayList<>()).add(transaction.getAmount());
         }
 
         System.out.println("Average transaction amounts by currency:");
-        for (String currency : transactionAmountByCurrency.keySet()) {
-            List<BigDecimal> transactionAmounts = transactionAmountByCurrency.get(currency);
+        for (String currency : transactionAmountsByCurrency.keySet()) {
+            List<BigDecimal> transactionAmounts = transactionAmountsByCurrency.get(currency);
             BigDecimal sum = new BigDecimal(0);
             for (BigDecimal transactionAmount : transactionAmounts) {
                 sum = sum.add(transactionAmount);
             }
-            BigDecimal average = sum.divide(new BigDecimal(transactionAmounts.size()));
+            BigDecimal average = sum.divide(new BigDecimal(transactionAmounts.size()), RoundingMode.DOWN);
             System.out.println(currency + ": " + average.toString());
         }
     }
 
 
     public void getTheMostOccurringPaymentMethodByCurrency() {
-        Map<String, Map<String, Integer>> countsByCurrencyAndPaymentMethod = new HashMap<>();
-        int skip = 0;
-        try {
-            Scanner scanner = new Scanner(new File(filename));
-            while (scanner.hasNextLine()) {
-                if (skip == 0) {
-                    skip++;
-                    continue;
-                }
-                String line = scanner.nextLine();
-                String[] fields = line.split(",");
-                String currency = fields[3];
-                String paymentMethod = fields[5];
-                if (!countsByCurrencyAndPaymentMethod.containsKey(currency)) {
-                    countsByCurrencyAndPaymentMethod.put(currency, new HashMap<>());
-                }
-                Map<String, Integer> countsByPaymentMethod = countsByCurrencyAndPaymentMethod.get(currency);
-                if (!countsByPaymentMethod.containsKey(paymentMethod)) {
-                    countsByPaymentMethod.put(paymentMethod, 1);
-                } else {
-                    countsByPaymentMethod.put(paymentMethod, countsByPaymentMethod.get(paymentMethod) + 1);
-                }
-            }
-            scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: " + e.getMessage());
-            return;
-        }
-        System.out.println("Payment methods with the most total transactions by currency:");
-        print(countsByCurrencyAndPaymentMethod);
+        Map<String, Map<String, Long>> paymentMethodsByCurrency = transactions.stream()
+                .collect(Collectors.groupingBy(Transaction::getCurrency, Collectors.groupingBy(
+                                Transaction::getPaymentMethod, Collectors.counting())
+                        )
+                );
+        print(paymentMethodsByCurrency);
     }
 
-    public void print(Map<String, Map<String, Integer>> countsByCurrencyAndPaymentMethod) {
+    public void print(Map<String, Map<String, Long>> countsByCurrencyAndPaymentMethod) {
         for (String currency : countsByCurrencyAndPaymentMethod.keySet()) {
-            int maxCount = 0;
+            long maxCount = 0;
             String maxPaymentMethod = "";
             for (String paymentMethod : countsByCurrencyAndPaymentMethod.get(currency).keySet()) {
-                int count = countsByCurrencyAndPaymentMethod.get(currency).get(paymentMethod);
+                long count = countsByCurrencyAndPaymentMethod.get(currency).get(paymentMethod);
                 if (count > maxCount) {
                     maxCount = count;
                     maxPaymentMethod = paymentMethod;
